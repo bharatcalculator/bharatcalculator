@@ -1,77 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .login-container {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 12px 8px;
-            margin: 8px 0 16px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 4px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .signup {
-            margin-top: 16px;
-            text-align: center;
-        }
-        .signup a {
-            color: #4CAF50;
-            text-decoration: none;
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Click the Button Game</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+  }
+  #gameButton {
+    font-size: 20px;
+    padding: 20px;
+    cursor: pointer;
+  }
+  #score {
+    font-size: 24px;
+    margin-top: 20px;
+  }
+  #timer {
+    font-size: 24px;
+    margin-top: 10px;
+  }
+</style>
 </head>
 <body>
 
-<div class="login-container">
-    <h2>Login</h2>
-    <form action="/submit-login" method="POST">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" required />
+<h1>Click the Button Game</h1>
+<button id="gameButton" disabled>Click Me!</button>
+<div id="score">Score: 0</div>
+<div id="timer">Time: 10</div>
+<button id="startButton">Start Game</button>
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required />
+<script>
+  let score = 0;
+  let timeLeft = 10;
+  let timerInterval;
 
-        <button type="submit">Login</button>
-    </form>
-    <div class="signup">
-        <p>Don't have an account? <a href="/signup">Sign up</a></p>
-    </div>
-</div>
+  const gameButton = document.getElementById('gameButton');
+  const scoreDisplay = document.getElementById('score');
+  const timerDisplay = document.getElementById('timer');
+  const startButton = document.getElementById('startButton');
+
+  gameButton.addEventListener('click', () => {
+    if (timeLeft > 0) {
+      score++;
+      scoreDisplay.innerText = 'Score: ' + score;
+    }
+  });
+
+  startButton.addEventListener('click', () => {
+    score = 0;
+    timeLeft = 10;
+    scoreDisplay.innerText = 'Score: ' + score;
+    timerDisplay.innerText = 'Time: ' + timeLeft;
+    gameButton.disabled = false;
+    startButton.disabled = true;
+
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      timerDisplay.innerText = 'Time: ' + timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        gameButton.disabled = true;
+        startButton.disabled = false;
+        alert('Time is up! Your score: ' + score);
+      }
+    }, 1000);
+  });
+</script>
 
 </body>
 </html>
